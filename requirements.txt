@@ -1,0 +1,6 @@
+pydictionary
+sympy
+openai
+speechrecognition
+googletrans
+pyttsx3
