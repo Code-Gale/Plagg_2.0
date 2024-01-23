@@ -18,7 +18,7 @@ Plagg is an AI-powered desktop virtual assistant designed to assist with work-re
 
 ### Installation
 
-1. Clone the repository: `git clone https://github.com/yourusername/plagg.git`
+1. Clone the repository: `git clone https://github.com/Code-Gale/plagg.git`
 2. Install dependencies: `pip install -r requirements.txt`
 
 ### Usage
