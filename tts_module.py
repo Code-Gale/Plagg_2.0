@@ -1,6 +1,6 @@
 import pyttsx3
 
-def speak_text(text):
+def speak(text):
     print("Response:", text)
     # Initialize the text-to-speech engine
     engine = pyttsx3.init()

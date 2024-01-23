@@ -1,11 +1,11 @@
 import sympy as sp
 from speech_recognition_module import get_user_input
-from tts_module import speak_text
+from tts_module import speak
 
 
 def solve_math_problem():
     # Ask the user for the math problem
-    speak_text("Sure, what math problem would you like me to solve?")
+    speak("Sure, what math problem would you like me to solve?")
     
     # Listen for user input
     user_input = get_user_input()
