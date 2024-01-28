@@ -97,6 +97,10 @@ def main():
             speak("What would you like me to do ?")
             print("What would you like me to do ?")
 
+        elif "change your name" in user_input:
+            speak("Sorry, My name cannot be changed.")
+            print("Sorry, My name cannot be changed.")
+        
         elif "bye" in user_input or "that's all" in user_input:
             speak("Goodbye!")
             break
