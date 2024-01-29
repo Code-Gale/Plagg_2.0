@@ -13,4 +13,5 @@ def solve_math_problem():
     # Use SymPy to solve the math problem
     x = sp.symbols('x')
     solution = sp.solve(user_input, x)
+    
     return f"The solution is: {solution}"

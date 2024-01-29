@@ -1,5 +1,4 @@
 from datetime import datetime
-import time
 from tts_module import speak
 from weather_module import get_weather
 from news_module import get_news
@@ -12,19 +11,18 @@ from jokes_module import get_joke
 from trivia_module import get_random_trivia
 from unit_conversion_module import convert_units
 from speech_recognition_module import get_user_input
+from openai_module import get_openai_response
 
 def greet_user():
     # Greet user based on the current time
     current_time = datetime.now().time()
     if current_time.hour < 12:
-        speak("Good morning!")
-        speak("I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
+        greeting = "Good morning!"
     elif 12 <= current_time.hour < 18:
-        speak("Good afternoon!")
-        speak("I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
+        greeting = "Good afternoon!"
     else:
-        speak("Good evening!")
-        speak("I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
+        greeting = "Good evening!"
+    speak(f"{greeting} I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
 
 def main():
     greet_user()
@@ -70,13 +68,8 @@ def main():
             math_response = solve_math_problem(math_problem)
             speak(math_response)
 
-        elif "tell me about" in user_input:
-            topic = user_input.replace("tell me about", "").strip()
-            wiki_response = get_wikipedia_info(topic)
-            speak(wiki_response)
-            
-        elif "who is" in user_input:
-            topic = user_input.replace("who is", "").strip()
+        elif "tell me about" in user_input or "who is" in user_input:
+            topic = user_input.replace("tell me about", "").replace("who is", "").strip()
             wiki_response = get_wikipedia_info(topic)
             speak(wiki_response)
 
@@ -84,29 +77,33 @@ def main():
             location_response = get_current_location()
             speak(location_response)
             
-        # manual commands
         elif "created you" in user_input:
-            speak("I was created by Code Singer to help with various task of desktop workspace.")
-            print("I was created by Code Singer to help with various task of desktop workspace.")
+            response = "I was created by Code Singer to help with various tasks of the desktop workspace."
+            speak(response)
+            print(response)
             
         elif "favourite color" in user_input:
-            speak("I wasn't programmed to have a specific favorite color but we could go with all colors of the rainbow as the give me sense of serenity")
-            print("I wasn't programmed to have a specific favorite color but we could go with all colors of the rainbow as the give me sense of serenity")
+            response = "I wasn't programmed to have a specific favorite color, but we could go with all colors of the rainbow as they give me a sense of serenity."
+            speak(response)
+            print(response)
             
         elif "what can you do" in user_input:
-            speak("What would you like me to do ?")
-            print("What would you like me to do ?")
+            response = "What would you like me to do?"
+            speak(response)
+            print(response)
 
         elif "change your name" in user_input:
-            speak("Sorry, My name cannot be changed.")
-            print("Sorry, My name cannot be changed.")
+            response = "Sorry, my name cannot be changed."
+            speak(response)
+            print(response)
         
         elif "bye" in user_input or "that's all" in user_input:
             speak("Goodbye!")
             break
 
         else:
-            speak("I'm sorry, I didn't understand that.")
+            openai_response = get_openai_response(user_input)
+            speak(openai_response)
 
 if __name__ == "__main__":
     main()
