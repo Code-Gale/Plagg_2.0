@@ -2,8 +2,8 @@ import openai
 
 class OpenAIModule:
     def __init__(self):
-        self.api_key = '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'
-        openai.api_key = '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'
+        self.api_key = 'api_key'
+        openai.api_key = 'api_key'
 
 
     def process_input(self, user_input):
