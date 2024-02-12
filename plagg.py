@@ -11,7 +11,7 @@ from jokes_module import get_joke
 from trivia_module import get_random_trivia
 from unit_conversion_module import convert_units
 from speech_recognition_module import get_user_input
-from openai_module import get_openai_response
+#from hmm.openai_module import get_openai_response
 
 def greet_user():
     # Greet user based on the current time
@@ -102,8 +102,9 @@ def main():
             break
 
         else:
-            openai_response = get_openai_response(user_input)
-            speak(openai_response)
+            speak("I'm not sure how to respond to that.")
+            #openai_response = get_openai_response(user_input)
+            #speak(openai_response)
 
 if __name__ == "__main__":
     main()
