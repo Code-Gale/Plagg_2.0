@@ -12,6 +12,7 @@ from trivia_module import get_random_trivia
 from unit_conversion_module import convert_units
 from speech_recognition_module import get_user_input
 from openai_module import generate_response
+from web_module import open_website
 
 def greet_user():
     # Greet user based on the current time
@@ -32,6 +33,11 @@ def main():
         if "weather" in user_input:
             weather_response = get_weather()
             speak(weather_response)
+            
+        elif 'are you there' in user_input :
+            activate = ("For you Sir, Always!")
+            print(activate)
+            speak(activate)
 
         elif "news" in user_input:
             news_response = get_news()
@@ -58,6 +64,20 @@ def main():
             to_unit = words[4]
             conversion_result = convert_units(value, from_unit, to_unit)
             speak(conversion_result)
+            
+        elif "open youtube and search for" in user_input or "i need videos on" in user_input:
+            query = user_input.replace("open youtube and search for", "").strip()
+            url = f"https://www.youtube.com/results?search_query={query}"
+            response = ("Right away sir.")
+            speak(response)
+            print(response)
+            open_website(url)
+            
+
+        elif "open amazon and search for" in user_input:
+            query = user_input.replace("open amazon and search for", "").strip()
+            url = f"https://www.amazon.com/s?k={query}"
+            open_website(url)
 
         elif "time" in user_input:
             current_time_response = get_current_time()
@@ -68,7 +88,7 @@ def main():
             math_response = solve_math_problem(math_problem)
             speak(math_response)
 
-        elif "tell me about" in user_input or "who is" in user_input:
+        elif "who is" in user_input:
             topic = user_input.replace("tell me about", "").replace("who is", "").strip()
             wiki_response = get_wikipedia_info(topic)
             speak(wiki_response)
@@ -103,7 +123,6 @@ def main():
 
         else:
             openai_response = generate_response(user_input)
-            print(openai_response)
             speak(openai_response)
             
 
