@@ -7,7 +7,7 @@ client = OpenAI(api_key='')
 # Define a function to generate a response from the chatbot
 def generate_response(user_input):
     response = client.completions.create(
-        model="gpt-3.5-turbo-instruct", 
+        model="gpt-3.5-turbo-0125", 
         prompt=user_input,
         max_tokens=100,
         temperature=0.7,
