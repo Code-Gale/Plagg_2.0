@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='')
 
 # Set up your OpenAI API key
 
@@ -16,12 +16,3 @@ def generate_response(user_input):
         timeout=10
     )
     return response.choices[0].text.strip()
-
-# Main loop to interact with the chatbot
-while True:
-    user_input = input("User: ")
-    if user_input.lower() == 'exit':
-        break
-        
-    response = generate_response(user_input)
-    print("Chatbot:", response)
