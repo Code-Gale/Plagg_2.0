@@ -6,7 +6,7 @@ from time_module import get_current_time
 from math_module import solve_math_problem
 from wikipedia_module import get_wikipedia_info
 from location_module import get_current_location
-from dictionary_module import get_word_definition
+#from hmm.dictionary_module import get_word_definition
 from jokes_module import get_joke
 from trivia_module import get_random_trivia
 from unit_conversion_module import convert_units
@@ -43,10 +43,10 @@ def main():
             news_response = get_news()
             speak(news_response)
 
-        elif "define" in user_input:
-            word = user_input.replace("define", "").strip()
-            definition = get_word_definition(word)
-            speak(definition)
+        #elif "define" in user_input:
+        #    word = user_input.replace("define", "").strip()
+        #    definition = get_word_definition(word)
+        #    speak(definition)
 
         elif "joke" in user_input:
             joke = get_joke()
