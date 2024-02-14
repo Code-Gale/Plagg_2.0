@@ -1,6 +1,8 @@
 pydictionary
 sympy
-openai
+openai==0.28
 speechrecognition
 googletrans
 pyttsx3
+wikipedia
+schedule
