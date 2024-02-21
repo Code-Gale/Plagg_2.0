@@ -14,6 +14,7 @@ from speech_recognition_module import get_user_input
 from openai_module import generate_response
 from web_module import open_website
 
+
 def greet_user():
     # Greet user based on the current time
     current_time = datetime.now().time()
@@ -70,7 +71,6 @@ def main():
             url = f"https://www.youtube.com/results?search_query={query}"
             response = ("Right away sir.")
             speak(response)
-            print(response)
             open_website(url)
             
 
@@ -97,10 +97,10 @@ def main():
             location_response = get_current_location()
             speak(location_response)
             
-        elif "created you" in user_input:
-            response = "I was created by Code Singer to help with various tasks of the desktop workspace."
-            speak(response)
-            print(response)
+        #elif "created you" in user_input:
+        #    response = "I was created by Code Singer to help with various tasks of the desktop workspace."
+        #    speak(response)
+        #    print(response)
             
         elif "favourite color" in user_input:
             response = "I wasn't programmed to have a specific favorite color, but we could go with all colors of the rainbow as they give me a sense of serenity."
