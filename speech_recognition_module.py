@@ -6,7 +6,7 @@ def get_user_input():
     with sr.Microphone() as source:
         print("Listening...")
         try:
-            audio = recognizer.listen(source)
+            audio = recognizer.listen(source, timeout=5)
             user_input = recognizer.recognize_google(audio)
             print("You:", user_input)
             return user_input
