@@ -65,7 +65,7 @@ def main():
             conversion_result = convert_units(value, from_unit, to_unit)
             speak(conversion_result)
             
-        elif "open YouTube and search for" in user_input or "i need videos on" in user_input:
+        elif "open YouTube and search for" in user_input or "I need videos on" in user_input:
             query = user_input.replace("open youtube and search for", "").strip()
             url = f"https://www.youtube.com/results?search_query={query}"
             response = ("Right away sir.")
