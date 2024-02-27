@@ -1,6 +1,6 @@
 import requests
 
-NEWS_API_URL = "6500379f31a9461cbe2f29c133fdd085"
+NEWS_API_URL = ""
 
 def get_news():
     response = requests.get(NEWS_API_URL)
