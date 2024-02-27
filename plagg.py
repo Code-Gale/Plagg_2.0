@@ -1,7 +1,7 @@
 from datetime import datetime
 from tts_module import speak
 from weather_module import fetch_weather
-from news_module import get_news
+from news_module import get_news, get_news_details
 from time_module import get_current_time
 from math_module import solve_math_problem
 from wikipedia_module import get_wikipedia_info
@@ -26,6 +26,14 @@ def greet_user():
         greeting = "Good evening!"
     speak(f"{greeting} I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
 
+
+def interrupt_activity():
+    # Check for user interruption
+    user_input = get_user_input().lower()
+    if "enough for now" in user_input or "stop" in user_input or "that's enough" in user_input:
+        speak("Alright, let me know if you need anything else. Goodbye!")
+        exit()
+        
 def main():
     greet_user()
     while True:
@@ -42,12 +50,21 @@ def main():
 
         elif "news" in user_input:
             news_response = get_news()
-            speak(news_response)
+            speak("Here are the latest headlines:")
+            for index, headline in enumerate(news_response, start=1):
+                speak(f"{index}. {headline}")
+                interrupt_activity()  # Check for interruption after each headline
 
-        #elif "define" in user_input:
-        #    word = user_input.replace("define", "").strip()
-        #    definition = get_word_definition(word)
-        #    speak(definition)
+            speak("Would you like more details on a specific news? If yes, please provide the news number.")
+            user_input = get_user_input()
+
+            try:
+                news_index = int(user_input) - 1
+                if 0 <= news_index < len(news_response):
+                    news_details = get_news_details(news_index)
+                    speak(news_details)
+            except ValueError:
+                pass
 
         elif "joke" in user_input:
             joke = get_joke()
@@ -57,14 +74,15 @@ def main():
             question, options, correct_option = get_random_trivia()
             trivia_response = f"Here's a trivia question: {question}. Options are: {', '.join(options)}."
             speak(trivia_response)
+            # Use the correct_option variable here if needed
 
-        elif "convert" in user_input:
-            words = user_input.split()
-            value = float(words[1])
-            from_unit = words[2]
-            to_unit = words[4]
-            conversion_result = convert_units(value, from_unit, to_unit)
-            speak(conversion_result)
+        #elif "convert" in user_input:
+        #    words = user_input.split()
+        #    value = float(words[1])
+        #    from_unit = words[2]
+        #    to_unit = words[4]
+        #    conversion_result = convert_units(value, from_unit, to_unit)
+        #    speak(conversion_result)
             
         elif "open YouTube and search for" in user_input or "I need videos on" in user_input:
             query = user_input.replace("open youtube and search for", "").strip()
@@ -120,10 +138,15 @@ def main():
         elif "bye" in user_input or "that's all" in user_input:
             speak("Goodbye!")
             break
-
+        
+        elif "stop" in user_input or "enough" in user_input:
+            interrupt_activity()
+        
         else:
             openai_response = generate_response(user_input)
             speak(openai_response)
+            
+        
             
 
 if __name__ == "__main__":
