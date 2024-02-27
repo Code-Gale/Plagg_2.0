@@ -1,6 +1,6 @@
 from datetime import datetime
 from tts_module import speak
-from weather_module import get_weather
+from weather_module import fetch_weather
 from news_module import get_news
 from time_module import get_current_time
 from math_module import solve_math_problem
@@ -32,7 +32,7 @@ def main():
         user_input = get_user_input()
 
         if "weather" in user_input:
-            weather_response = get_weather()
+            weather_response = fetch_weather()
             speak(weather_response)
             
         elif 'are you there' in user_input :
