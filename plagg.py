@@ -15,7 +15,6 @@ from openai_module import generate_response
 from web_module import open_website
 import json
 
-
 def check_last_greeting():
     try:
         with open('last_greeting.json', 'r') as file:
@@ -34,23 +33,30 @@ def update_last_greeting():
 def greet_user():
     last_greeting_date = check_last_greeting()
     current_date = datetime.now().date()
+    current_time = datetime.now().time()
 
     if last_greeting_date == str(current_date):
-        alternate_greeting = "Welcome back. How can I be of service?"
+        # Returning user greeting
+        if current_time.hour < 12:
+            alternate_greeting = "Pleased to have you back. How can I be of service once again?"
+        elif 12 <= current_time.hour < 18:
+            alternate_greeting = "Welcome back. Good afternoon! How can I assist you today?"
+        else:
+            alternate_greeting = "Welcome back. Good evening! How can I assist you today?"
         speak(alternate_greeting)
     else:
-        # Your regular greeting logic
-        current_time = datetime.now().time()
+        # First-time user or new day greeting
         if current_time.hour < 12:
-            greeting = "Good morning!"
+            greeting = "Good morning! It's a brand new day. How can I help you?"
         elif 12 <= current_time.hour < 18:
-            greeting = "Good afternoon!"
+            greeting = "Good afternoon! How can I assist you this afternoon?"
         else:
-            greeting = "Good evening!"
+            greeting = "Good evening! How can I assist you this evening?"
         speak(f"{greeting} I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
 
         # Update the last greeting date
         update_last_greeting()
+
 
 def interrupt_activity():
     # Check for user interruption
