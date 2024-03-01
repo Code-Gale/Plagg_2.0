@@ -14,6 +14,7 @@ from speech_recognition_module import get_user_input
 from openai_module import generate_response
 from web_module import open_website
 import json
+from memory_module import load_conversation_history, save_conversation_history, update_conversation_history, get_last_user_input, search_memory, find_last_occurrence
 
 def check_last_greeting():
     try:
@@ -40,18 +41,18 @@ def greet_user():
         if current_time.hour < 12:
             alternate_greeting = "Pleased to have you back. How can I be of service once again?"
         elif 12 <= current_time.hour < 18:
-            alternate_greeting = "Welcome back. Good afternoon! How can I assist you today?"
+            alternate_greeting = "Welcome back. How can I assist you once again?"
         else:
-            alternate_greeting = "Welcome back. Good evening! How can I assist you today?"
+            alternate_greeting = "Welcome back. How can I assist you once again?"
         speak(alternate_greeting)
     else:
         # First-time user or new day greeting
         if current_time.hour < 12:
-            greeting = "Good morning! It's a brand new day. How can I help you?"
+            greeting = "Good morning! It's a brand new day."
         elif 12 <= current_time.hour < 18:
-            greeting = "Good afternoon! How can I assist you this afternoon?"
+            greeting = "Good afternoon!"
         else:
-            greeting = "Good evening! How can I assist you this evening?"
+            greeting = "Good evening!"
         speak(f"{greeting} I am Plagg, an artificial intelligence created by Code Singer. How can I help you today?")
 
         # Update the last greeting date
@@ -63,6 +64,24 @@ def interrupt_activity():
     user_input = get_user_input().lower()
     if "enough for now" in user_input or "stop" in user_input or "that's enough" in user_input:
         speak("Alright, let me know if you need anything else.")
+        
+def summarize_previous_conversation(query):
+    matched_entries = search_memory(query)
+    if matched_entries:
+        speak(f"I found {len(matched_entries)} matching entries in our conversation history.")
+        for timestamp, entry in matched_entries:
+            speak(f"On {timestamp}, you asked: {entry['user_input']}")
+            speak(f"I responded: {entry['plagg_response']}")
+    else:
+        speak("I couldn't find any matching entries in our conversation history.")
+
+def handle_do_you_remember_query(query):
+    result = find_last_occurrence(query)
+    if result:
+        speak(f"Yes, I remember. On {result['timestamp']}, you asked: {result['user_input']}")
+        speak(f"I responded: {result['plagg_response']}")
+    else:
+        speak("I don't recall that specific conversation.")
         
 def main():
     greet_user()
@@ -83,11 +102,10 @@ def main():
             speak("Here are the latest headlines:")
             for index, headline in enumerate(news_response, start=1):
                 speak(f"{index}. {headline}")
-                interrupt_activity()  # Check for interruption after each headline
+                
 
             speak("Would you like more details on a specific news? If yes, please provide the news number.")
             user_input = get_user_input()
-
             try:
                 news_index = int(user_input) - 1
                 if 0 <= news_index < len(news_response):
@@ -106,14 +124,6 @@ def main():
             speak(trivia_response)
             # Use the correct_option variable here if needed
 
-        #elif "convert" in user_input:
-        #    words = user_input.split()
-        #    value = float(words[1])
-        #    from_unit = words[2]
-        #    to_unit = words[4]
-        #    conversion_result = convert_units(value, from_unit, to_unit)
-        #    speak(conversion_result)
-            
         elif "open YouTube and search for" in user_input or "I need videos on" in user_input:
             query = user_input.replace("open youtube and search for", "").strip()
             url = f"https://www.youtube.com/results?search_query={query}"
@@ -165,16 +175,33 @@ def main():
             speak(response)
             print(response)
         
-        elif "bye" in user_input or "that's all" in user_input:
+        elif "bye" in user_input or 'that will be all for now' in user_input:
             speak("Goodbye!")
             break
         
         elif "stop" in user_input or "enough" in user_input:
             interrupt_activity()
+            
+        elif "last question" in user_input:
+            last_user_input = get_last_user_input()
+            if last_user_input:
+                speak(f"The last question you asked me was: {last_user_input}")
+            else:
+                speak("I don't have information about our last conversation.")
+                
+        elif "summarize previous conversation about" in user_input or 'summarise our last conversation about' in user_input:
+            query = user_input.replace("summarize previous conversation about", "").strip()
+            summarize_previous_conversation(query)
+            
+        elif "do you remember when I asked you about" or 'do you remember when we spoke about' in user_input:
+            query = user_input.replace("do you remember when I asked you about", "").strip()
+            handle_do_you_remember_query(query)
         
         else:
             openai_response = generate_response(user_input)
             speak(openai_response)
+            plagg_response = generate_response(user_input)
+            update_conversation_history(user_input, plagg_response)
             
         
             
