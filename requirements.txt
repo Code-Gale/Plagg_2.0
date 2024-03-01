@@ -1,4 +1,3 @@
-pydictionary
 sympy
 openai==0.28
 speechrecognition

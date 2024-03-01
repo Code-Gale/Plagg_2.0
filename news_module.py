@@ -1,6 +1,6 @@
 import requests
 
-NEWS_API_URL = ""
+NEWS_API_URL = "https://newsapi.org/v2/top-headlines?country=ng&apiKey=6500379f31a9461cbe2f29c133fdd085"
 
 def get_news():
     response = requests.get(NEWS_API_URL)
@@ -18,3 +18,4 @@ def get_news_details(news_index):
     news_description = selected_news.get("description")
     news_content = selected_news.get("content")
     return f"Title: {news_title}\nDescription: {news_description}\nContent: {news_content}"
+
